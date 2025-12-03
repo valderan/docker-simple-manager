@@ -1,0 +1,33 @@
+/* Light theme template. Values injected via Python formatting. */
+QWidget {{
+    background-color: {background};
+    color: {text};
+}}
+
+QPushButton {{
+    background-color: {primary};
+    color: {text_on_primary};
+    border-radius: 4px;
+    padding: 6px 12px;
+}}
+
+QTreeWidget,
+QTreeView {{
+    background-color: {table_background};
+    alternate-background-color: {table_alternate};
+    color: {text};
+    border: 1px solid {border};
+    selection-background-color: {table_selection_bg};
+    selection-color: {table_selection_text};
+}}
+
+QTreeWidget::item,
+QTreeView::item {{
+    padding: 4px 6px;
+}}
+
+QTreeWidget::item:selected,
+QTreeView::item:selected {{
+    background-color: {table_selection_bg};
+    color: {table_selection_text};
+}}

@@ -1,0 +1,2 @@
+[console_scripts]
+docker-simple-manager = src.main:main

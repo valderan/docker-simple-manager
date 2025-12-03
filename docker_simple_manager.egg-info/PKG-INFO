@@ -1,0 +1,154 @@
+Metadata-Version: 2.4
+Name: docker-simple-manager
+Version: 0.1.0
+Summary: Cross-platform desktop application for managing Docker resources.
+Author-email: Docker Simple Manager Team <support@dsmanager.local>
+License: MIT
+Project-URL: homepage, https://github.com/dsmanager/docker-simple-manager
+Project-URL: repository, https://github.com/dsmanager/docker-simple-manager
+Project-URL: issues, https://github.com/dsmanager/docker-simple-manager/issues
+Keywords: docker,pyside6,desktop,manager
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.13
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PySide6>=6.7
+Requires-Dist: docker>=7.0
+Requires-Dist: paramiko>=3.4
+Requires-Dist: pydantic>=2.6
+Requires-Dist: python-dotenv>=1.0
+Requires-Dist: pexpect>=4.9
+Requires-Dist: psutil>=7.1.3
+Provides-Extra: dev
+Requires-Dist: black>=24.3; extra == "dev"
+Requires-Dist: flake8>=7.0; extra == "dev"
+Requires-Dist: mypy>=1.8; extra == "dev"
+Requires-Dist: pytest>=8.1; extra == "dev"
+Requires-Dist: pytest-cov>=5.0; extra == "dev"
+Requires-Dist: pyinstaller>=6.5; extra == "dev"
+Requires-Dist: types-psutil>=5.9; extra == "dev"
+Requires-Dist: types-pexpect>=4.8; extra == "dev"
+Requires-Dist: types-docker>=7.0; extra == "dev"
+Dynamic: license-file
+
+# Docker Simple Manager
+
+<p align="center">
+  <img src="logo-dsm.png" alt="SVS Logo" width="160" height=auto/>
+</p>
+
+[English version](README_en.md)
+
+## Содержание
+
+- [Описание проекта](#описание-проекта)
+- [Основные задачи](#основные-задачи)
+- [Функции интерфейса](#функции-интерфейса)
+- [Архитектура и компоненты](#архитектура-и-компоненты)
+- [Подготовка окружения](#подготовка-окружения)
+- [Запуск и тестирование](#запуск-и-тестирование)
+- [Сборка бинарников](#сборка-бинарников)
+- [Подготовка к релизу](#подготовка-к-релизу)
+- [Документация](#документация)
+- [Лицензия](#лицензия)
+
+## Описание проекта
+
+Docker Simple Manager — кроссплатформенное десктопное приложение на Python 3.13+ и PySide6 для работы с Docker. Интерфейс предоставляет быстрый доступ к контейнерам, образам, томам, сборкам, проектам и соединениям, поддерживает локальные и удалённые (SSH) инстансы, а также хранит настройки и состояния между сессиями.
+
+## Основные задачи
+
+- Управление множественными Docker‑соединениями (создание, проверка, активация, деактивация, логирование действий).
+- Создание и запуск проектов (команды Docker, docker-compose, Dockerfile, bash‑скрипты) с историей запусков и общим логом `projects.log`.
+- Наблюдение и управление контейнерами, образами, томами и сборками через вкладки главного окна.
+- Поддержка автоматического и ручного обновления данных, сохранение состояний окон, таблиц и диалогов.
+- Асинхронное выполнение всех операций, связанных с Docker и проектами, во избежание зависаний интерфейса.
+
+## Функции интерфейса
+
+- **Главное окно:** дашборд со статистикой соединений и проектов, вкладки `Контейнеры / Образы / Томa / Сборки`, статусная строка с последним обновлением и сообщениями.
+- **Менеджер соединений:** таблица соединений с фильтрами и иконками действий (активация, деактивация, проверка, редактирование, удаление). Поддерживаются локальные сокеты, Docker Desktop и SSH.
+- **Менеджер проектов:** таблица проектов, действия (редактирование, запуск, просмотр логов, удаление), диалог создания/редактирования с пролистыванием и подтверждениями.
+- **Настройки:** языки (ru/en), темы, автообновление, подключение, таймауты, горячие клавиши, параметры логирования и UI state.
+- **Дополнительно:** просмотр логов приложения, встроенный терминал в футере, окна помощи и «О программе».
+
+## Архитектура и компоненты
+
+- `src/settings` — система настроек (Registry, группы, валидаторы, миграции, observers).
+- `src/connections` — менеджер соединений, модели, обёртка над Docker client.
+- `src/projects` — менеджер проектов и исполнитель команд с логированием.
+- `src/docker_api` — высокоуровневый доступ к объектам Docker.
+- `src/ui` — главное окно, диалоги, таблицы, стили, ресурсы.
+- `src/utils` и `src/i18n` — вспомогательные функции, переводчик.
+
+Структура директорий полностью описана в `docs/06_project_architecture.md`, UI‑макеты — в `docs/03_ui_ux_prototypes.md`.
+
+## Подготовка окружения
+
+```bash
+git clone https://github.com/dsmanager/docker-simple-manager.git
+cd docker-simple-manager
+uv pip install -e ".[dev]"     # создаёт виртуальное окружение и ставит dev-зависимости
+```
+
+Переменная `DSM_HOME` может переопределять рабочую директорию (`~/.dsmanager` по умолчанию).
+
+## Запуск и тестирование
+
+```bash
+# Запуск приложения (в виртуальном окружении)
+uv run docker-simple-manager
+
+# Проверки качества
+make lint        # black + flake8
+make typecheck   # mypy
+make test        # pytest --cov
+```
+
+Перед запуском убедитесь, что Docker доступен по выбранному сокету или SSH.
+
+## Сборка бинарников
+
+```
+# Linux: результат dist/dsm-linux/dsm
+make build-linux
+
+# macOS (выполняется только на macOS). DSM_MAC_ARCH=arm64|x86_64|universal2
+make build-macos
+
+# Прямой вызов PyInstaller с параметрами окружения
+DSM_BINARY_NAME=dsm DSM_DIST_NAME=dsm-linux \
+  uv run --extra dev pyinstaller --clean -y pyinstaller.spec
+```
+
+Секции `datas` и `hiddenimports` внутри `pyinstaller.spec` обеспечивают доставку переводов, стилей и ресурсов UI. Для очистки артефактов используйте `make dist-clean`.
+
+## Подготовка к релизу
+
+1. `make lint`, `make typecheck`, `make test` — убедиться в чистоте кода и прохождении тестов.
+2. `make build-linux` и/или `make build-macos` — собрать и smoke‑протестировать бинарники.
+3. Проверить наличие нужных файлов в `dist/`, приложить инструкции по установке зависимостей (`libtiff`, др.).
+4. Обновить `docs/05_development_checklist.md` и версию в `pyproject.toml`, при необходимости подготовить change log.
+5. Выполнить `make dist-clean` перед упаковкой исходников, чтобы не тащить артефакты.
+
+## Документация
+
+- `docs/00_documentation_summary.md` — обзор пакета документов.
+- `docs/01_technical_specification.md` — техническое задание.
+- `docs/02_settings_system_architecture.md` — система настроек.
+- `docs/03_ui_ux_prototypes.md` — прототипы UI.
+- `docs/04_ai_agent_prompt.md` — инструкции для разработчика/AI.
+- `docs/05_development_checklist.md` — чеклист разработки.
+- `docs/06_project_architecture.md` — архитектура проекта.
+- `docs/07_implementation_overview.md` — краткий обзор реализации.
+
+## Лицензия
+
+Проект распространяется под лицензией MIT.
