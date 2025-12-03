@@ -30,8 +30,10 @@
    DSM_MAC_ARCH=universal2 make build-macos
    ```
    - Optionally build per-arch binaries: `DSM_MAC_ARCH=arm64 make build-macos`.
+   - Produce a Debian package (on Linux): `make package-deb` → `dist/docker-simple-manager_<version>_amd64.deb`.
 6. **Verify artifacts**
    - Run the built binaries (`dist/dsm-linux/dsm`, `dist/dist-macos/dsm`) and ensure they start without errors.
+   - Install and smoke-test the `.deb` package if you plan to distribute it.
    - Compress output folders for distribution (e.g., `tar.gz` for Linux, `.zip`/`.dmg` for macOS).
 7. **Clean workspace**
    ```bash

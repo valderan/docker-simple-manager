@@ -72,11 +72,19 @@ jobs:
       - name: Build Linux binary
         run: |
           make build-linux
+      - name: Package Debian archive
+        run: |
+          make package-deb
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: dsm-linux
           path: dist/dsm-linux
+      - name: Upload Debian package
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-simple-manager-deb
+          path: dist/docker-simple-manager_*_amd64.deb
 
   build-macos:
     runs-on: macos-latest

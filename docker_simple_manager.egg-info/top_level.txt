@@ -1,6 +1,7 @@
 build
 dist
 docs
+packaging
 src
 test_env
 tmp

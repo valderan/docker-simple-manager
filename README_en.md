@@ -84,6 +84,10 @@ make build-macos
 # direct PyInstaller invocation with custom output names
 DSM_BINARY_NAME=dsm DSM_DIST_NAME=dsm-linux \
   uv run --extra dev pyinstaller --clean -y pyinstaller.spec
+
+# Build .deb package (Linux)
+make package-deb
+# Artifact: dist/docker-simple-manager_<version>_amd64.deb
 ```
 
 All translations, styles and UI assets are bundled via `collect_data_files` inside `pyinstaller.spec`. Use `make dist-clean` to wipe `build/` and `dist/`.

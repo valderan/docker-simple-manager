@@ -1,0 +1,10 @@
+Package: docker-simple-manager
+Version: @VERSION@
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: libc6 (>= 2.31)
+Maintainer: Docker Simple Manager Team <support@dsmanager.local>
+Description: Docker Simple Manager
+ Cross-platform desktop UI for managing Docker connections, containers, images
+ and projects. Provides quick commands, project launcher, log viewer and status dashboards.

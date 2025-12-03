@@ -86,6 +86,10 @@ make build-macos
 # Прямой вызов PyInstaller с параметрами окружения
 DSM_BINARY_NAME=dsm DSM_DIST_NAME=dsm-linux \
   uv run --extra dev pyinstaller --clean -y pyinstaller.spec
+
+# Сборка deb-пакета (Linux)
+make package-deb
+# Результат: dist/docker-simple-manager_<версия>_amd64.deb
 ```
 
 Секции `datas` и `hiddenimports` внутри `pyinstaller.spec` обеспечивают доставку переводов, стилей и ресурсов UI. Для очистки артефактов используйте `make dist-clean`.

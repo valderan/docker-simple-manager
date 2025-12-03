@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Docker Simple Manager
+Comment=Manage Docker connections, containers, images, volumes and projects
+Exec=/usr/bin/docker-simple-manager
+Icon=docker-simple-manager
+Terminal=false
+Type=Application
+Categories=Utility;Development;

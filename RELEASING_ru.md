@@ -36,10 +36,12 @@
    DSM_MAC_ARCH=universal2 make build-macos
    ```
    - Для конкретной архитектуры macOS используйте `DSM_MAC_ARCH=arm64` или `DSM_MAC_ARCH=x86_64`.
+   - Для публикации `.deb` (Linux) выполните `make package-deb` — пакет появится в `dist/docker-simple-manager_<версия>_amd64.deb`.
 
 6. **Проверка артефактов**
    - Запустить бинарники из `dist/dsm-linux/dsm` и `dist/dist-macos/dsm`, убедиться в отсутствии ошибок при старте.
    - Упаковать каталоги для публикации (например, `tar.gz` для Linux, `.zip` / `.dmg` для macOS).
+   - При необходимости проверить установку `.deb` пакета.
 
 7. **Очистка**
    ```bash
